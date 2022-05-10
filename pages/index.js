@@ -19,7 +19,7 @@ const downloadFile = (blob, fileName) => {
 export default function Home() {
 
   const onClick=()=>{
-    fetch("http://localhost:3000/api/hello2").then(res=>res.blob()).then(res=>{
+    fetch("https://serverless-fn-dep.vercel.app/api/hello2").then(res=>res.blob()).then(res=>{
     
       console.log(res);
       downloadFile(new Blob([res]), "myfile.pdf")
