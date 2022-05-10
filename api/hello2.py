@@ -11,20 +11,20 @@ class handler(BaseHTTPRequestHandler):
         s = self.path
         dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
         self.send_response(200)
-        self.send_header('Content-type', 'text/plain')
+        self.send_header('Content-type', 'application/pdf')
 
         self.end_headers()
 
         url = 'https://jakevdp.github.io/downloads/notebooks/XKCD_plots.ipynb'
         response = urlopen(url).read().decode()
         jake_notebook = nbformat.reads(response, as_version=4)
-        print(jake_notebook)
+        # print(jake_notebook)
         pdf_exporter = PDFExporter()
-        pdf_exporter.from_notebook_node(jake_notebook)
+        pdf_data,_ = pdf_exporter.from_notebook_node(jake_notebook)
 
         if "name" in dic:
             message = "Hello, " + dic["name"] + "!"
         else:
             message = "Hello, stranger!"
-        self.wfile.write(message.encode())
+        self.wfile.write(pdf_data)
         return
