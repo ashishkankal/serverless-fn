@@ -3,11 +3,14 @@ from urllib import parse
 from urllib.request import urlopen
 import nbformat
 from nbconvert import PDFExporter
+from pypandoc.pandoc_download import download_pandoc
 
 
 class handler(BaseHTTPRequestHandler):
 
     def do_GET(self):
+        download_pandoc()
+
         s = self.path
         dic = dict(parse.parse_qsl(parse.urlsplit(s).query))
         self.send_response(200)
